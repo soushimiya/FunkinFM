@@ -246,6 +246,13 @@ class Project extends HXProject {
 	 */
 	static final FEATURE_GHOST_TAPPING:FeatureFlag = "FEATURE_GHOST_TAPPING";
 
+
+	/**
+	 * `-DFEATURE_FUNKIN_MODCHART`
+	 * If this flag is enabled, the game will enable the FunkinModchart library's support for modchart by HScripts.
+	 */
+	 static final FEATURE_FUNKIN_MODCHART:FeatureFlag = "FEATURE_FUNKIN_MODCHART";
+
 	//
 	// CONFIGURATION FUNCTIONS
 	//
@@ -263,6 +270,7 @@ class Project extends HXProject {
 		configureCustomMacros();
     configureOutputDir();
     configurePolymod();
+	configureFunkinModchart();
     configureHaxelibs();
     configureAssets();
     configureIcons();
@@ -467,6 +475,7 @@ class Project extends HXProject {
 		HARDCODED_CREDITS.apply(this, true);
 		FEATURE_OPEN_URL.apply(this, true);
 		FEATURE_POLYMOD_MODS.apply(this, true);
+		FEATURE_FUNKIN_MODCHART.apply(this, true);
 		FEATURE_FUNKVIS.apply(this, true);
 		FEATURE_PARTIAL_SOUNDS.apply(this, true);
 		FEATURE_VIDEO_PLAYBACK.apply(this, true);
@@ -580,6 +589,8 @@ class Project extends HXProject {
 		// Ensure all Flixel classes are available at runtime.
 		// Explicitly ignore packages which require additional dependencies.
 		addHaxeMacro("include('flixel', true, [ 'flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.system.macros.*' ])");
+		// FunkinModchart Macro
+		addHaxeMacro("modchart.core.macros.Macro.includeFiles()");
 	}
 
 	/**
@@ -622,6 +633,10 @@ class Project extends HXProject {
     }
   }
 
+  function configureFunkinModchart() {
+		setHaxedef("FM_ENGINE", "Vanilla");
+  }
+
   function configureHaxelibs() {
 		// Don't enforce
     addHaxelib('lime'); // Game engine backend
@@ -637,6 +652,7 @@ class Project extends HXProject {
     addHaxelib('flixel-text-input'); // Improved text field rendering for HaxeUI
 
     addHaxelib('polymod'); // Modding framework
+	addHaxelib('funkin-modchart'); // Modding framework
     addHaxelib('flxanimate'); // Texture atlas rendering
 
 		addHaxelib('json2object'); // JSON parsing
